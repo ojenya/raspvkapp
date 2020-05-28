@@ -1,0 +1,16 @@
+.grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid Div {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    padding: 2%;
+    width: 100%;
+    white-space: pre-line
+}
