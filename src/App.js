@@ -11,11 +11,13 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Home from './panels/Home';
 import Intro from './panels/Intro';
 import Setting from './components/Setting';
+import Schedule from './panels/Schedule';
 
 const ROUTES = {
 	HOME: 'home',
 	INTRO: 'intro',
-	SETTING: 'setting'
+	SETTING: 'setting',
+	SCHEDULE: 'schedule'
 
 };
 
@@ -23,10 +25,9 @@ const STORAGE_KEYS = {
 	STATE: 'state',
 	STATUS: 'viewStatus',
 };
-const day = {day: 'Среда'};
 const group = {group: '02461-ДБ'};
 const App = () => {
-	const [activePanel, setActivePanel] = useState(ROUTES.INTRO);
+	const [activePanel, setActivePanel] = useState(ROUTES.SCHEDULE);
 	const [fetchedUser, setUser] = useState(null);
 	const [fetchedState, setFetchedState] = useState(null);
 	const [snackbar, setSnackbar] = useState(null);
@@ -37,48 +38,12 @@ const App = () => {
 		bridge.subscribe(({ detail: { type, data }}) => {
 			if (type === 'VKWebAppUpdateConfig') {
 				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
+				schemeAttribute.value =  'client_light';
 				document.body.attributes.setNamedItem(schemeAttribute);
 			}
 		});
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
-			const sheetState = await bridge.send('VKWebAppStorageGet', { keys: [STORAGE_KEYS.STATE, STORAGE_KEYS.STATUS]});
-			if (Array.isArray(sheetState.keys)) {
-				const data = {};
-				sheetState.keys.forEach(({ key, value }) => {
-					try {
-						data[key] = value ? JSON.parse(value) : {};
-						switch (key) {
-							case STORAGE_KEYS.STATE:
-								setFetchedState(data[STORAGE_KEYS.STATE]);
-								break;
-							case STORAGE_KEYS.STATUS:
-								if (data[key] && data[key].hasSeenIntro) {
-									setActivePanel(ROUTES.HOME);
-									setUserHasSeenIntro(true);
-								}
-								break;
-							default:
-								break;
-						}
-					} catch (error) {
-						setSnackbar(<Snackbar
-							layout='vertical'
-							onClose={() => setSnackbar(null)}
-							before={<Avatar size={24} style={{backgroundColor: 'var(--dynamic_red)'}}><Icon24Error fill='#fff' width={14} height={14} /></Avatar>}
-							duration={900}
-						>
-							Проблема с получением данных из Storage
-						</Snackbar>
-						);
-						setFetchedState({});
-					}
-				});
-				
-			} else {
-				setFetchedState({});
-			}
 			setUser(user);
 			setPopout(null);
 		}
@@ -91,13 +56,10 @@ const App = () => {
 
 
 
-	const viewSetting = async (panel) => {
+	const viewHome = async (panel) => {
 		try {
 			await bridge.send('VKWebAppStorageSet', {
 				key: STORAGE_KEYS.STATUS,
-				value: JSON.stringify({
-					hasSeenIntro: true,
-				}),
 			});
 			go(panel);
 		} catch (error) {
@@ -113,13 +75,10 @@ const App = () => {
 		}
 	}
 
-	const viewIntro = async (panel) => {
+	const viewSchedule = async (panel) => {
 		try {
 			await bridge.send('VKWebAppStorageSet', {
 				key: STORAGE_KEYS.STATUS,
-				value: JSON.stringify({
-					hasSeenIntro: true,
-				}),
 			});
 			go(panel);
 		} catch (error) {
@@ -134,12 +93,25 @@ const App = () => {
 			);
 		}
 	}
+
+   
+	
+    function getWeekDay (){
+		let days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+		let date = new Date()
+		let day = {day: days[date.getDay()]};
+        return day
+
+    };
+	
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Home id={ROUTES.HOME} fetchedState={fetchedState} day={day.day} group={group.group} go={viewSetting} route={ROUTES.SETTING} snackbarError={snackbar} />
-			<Setting id={ROUTES.SELECT} fetchedState={fetchedState}/>
-			<Intro id={ROUTES.INTRO} fetchedUser={fetchedUser}  go={viewIntro} route={ROUTES.HOME} userHasSeenIntro={userHasSeenIntro} />
+			{/* <Home id={ROUTES.HOME} fetchedUser={fetchedUser} fetchedState={fetchedState} go={viewHome} route={ROUTES.HOME} /> */}
+			<Schedule id={ROUTES.SCHEDULE} fetchedUser={fetchedUser} fetchedState={fetchedState} day={ getWeekDay()} group={group} go={viewSchedule} route={ROUTES.SCHEDULE} />
+
+			{/* <Setting id={ROUTES.SELECT} fetchedState={fetchedState}/> */}
+			{/* <Intro id={ROUTES.INTRO} fetchedUser={fetchedUser}  go={viewIntro} route={ROUTES.HOME} userHasSeenIntro={userHasSeenIntro} /> */}
 		</View>
 	);
 }
