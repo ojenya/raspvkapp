@@ -8,7 +8,7 @@ Date.prototype.getWeekNumber = function() {
 
 };
 
-function getWeek() {
+export function getWeek() {
     var oddeven = new Date().getWeekNumber()
     if (oddeven % 2 == 1) {
         var weektype = "нижняя"

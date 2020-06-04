@@ -13,36 +13,47 @@ import Icon28UsersOutline from '@vkontakte/icons/dist/28/users_outline';
 import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
 import Icon28CameraOutline from '@vkontakte/icons/dist/28/camera_outline';
 
-
 import Icon16Dropdown from '@vkontakte/icons/dist/16/dropdown';
 import Icon24Done from '@vkontakte/icons/dist/24/done';
 import './Home.css';
-import { Setting } from '../components/Setting';
+import  Setting from '../components/Setting';
+
+
 
 const Home = ({ id, snackbarError, fetchedState,day,group }) => {
 	const [activePanel, setActivePanel]= useState('panel1')
 	const [activeView, setactiveView]= useState('view1')
-    const [contextOpened, setContextOpened]= useState(false)
-    const [mode, setMode]= useState('all')
-    const [activeTab1, setActiveTab1]= useState('recomendations')
-    const [activeTab2, setActiveTab2]= useState('music')
-    const [activeTab3, setActiveTab3]= useState('news')
-    const [activeTab4, setActiveTab4]= useState('all')
-    const [activeTab5, setActiveTab5]= useState('all')
+  const [contextOpened, setContextOpened]= useState(false)
+  const [mode, setMode]= useState('all')
+  const [activeTab1, setActiveTab1]= useState('recomendations')
+  const [activeTab2, setActiveTab2]= useState('music')
+  const [activeTab3, setActiveTab3]= useState('news')
+  const [activeTab4, setActiveTab4]= useState('all')
+  const [activeTab5, setActiveTab5]= useState('all')
 
+
+  const [activeModal,setActiveModal]=useState(null)
+  const [modalHistory,setModalHistory]=([])
 
   function select() {
-	// const mode = e.currentTarget.dataset.mode;
-    // const contextOpened = e.currentTarget.dataset.contextOpened;
-	
 	setMode({ mode: false });
 	setContextOpened({contextOpened: false});
-
   }
+
+const MODAL_PAGE_FILTERS = 'filters';
+const MODAL_PAGE_COUNTRIES = 'countries';
+const MODAL_PAGE_STORY_FEEDBACK = 'story-feedback';
+const MODAL_PAGE_USER_INFO = 'user-info';
+
+const MODAL_CARD_MONEY_SEND = 'money-send';
+const MODAL_CARD_APP_TO_MENU = 'app-to-menu';
+const MODAL_CARD_ABOUT = 'say-about';
+const MODAL_CARD_NOTIFICATIONS = 'notifications';
+const MODAL_CARD_CHAT_INVITE = 'chat-invite';
+
+
 	return (
-		// <Panel id={id}>
-			// {/* <PanelHeader>Расписание</PanelHeader> */}
-			// {/* <Setting day={day} group={group} fetchedState={fetchedState} snackbarError={snackbarError}/> */}
+
 <Root activeView={activeView}>
 <View activePanel={activePanel} id="view1">
           <Panel id='panel1'>
@@ -123,9 +134,7 @@ const Home = ({ id, snackbarError, fetchedState,day,group }) => {
                 Рекомендации
               </TabsItem>
             </Tabs>
-            {/* <Separator /> */}
             <Group>
-				
               <CellButton onClick={() => setActivePanel('panel3')}>Со скроллом</CellButton>
             </Group>
           </Panel>

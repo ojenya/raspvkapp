@@ -12,25 +12,25 @@ import Setting from '../components/Setting';
 import {update} from '../components/Service' 
 import {getWeek} from '../components/Service' 
 
-const Schedule = ({ id, snackbarError, fetchedState,day,group }) => {
+const Deadline = () => {
 	const [activePanel, setActivePanel]= useState('panel3')
 	const [activeView, setactiveView]= useState('view1')
-    const [activeTab3, setActiveTab3]= useState(day.day)
+    const [activeTab3, setActiveTab3]= useState('Активные')
     const [selectDay, setSelectDay]= useState(activeTab3)
     const [updateSchedule,setUpdateSchedule ]= useState([])
     const [week,setWeek]= useState()
 
 
-    useEffect(() => {
-        setWeek(getWeek())
-    });
+    // useEffect(() => {
+    //     setWeek(getWeek())
+    // });
     
-    useEffect(() => {
+    // useEffect(() => {
 
-            update(group,selectDay)
-            .then(arr => setUpdateSchedule(arr))
+    //         update(group,selectDay)
+    //         .then(arr => setUpdateSchedule(arr))
         
-      },[selectDay]);
+    //   },[selectDay]);
 
     useEffect(() => {
         setSelectDay(activeTab3)
@@ -57,49 +57,21 @@ const Schedule = ({ id, snackbarError, fetchedState,day,group }) => {
             <HorizontalScroll>
             
             <TabsItem 
-                onClick={() => setActiveTab3('Понедельник')}
-                selected={activeTab3 === 'Понедельник'}
+                onClick={() => setActiveTab3('Активные')}
+                selected={activeTab3 === 'Активные'}
             >
-               <Text weight="semibold">ПН</Text>
+               <Text weight="semibold">Активные</Text>
             </TabsItem>
             <TabsItem
-                onClick={() => setActiveTab3('Вторник' )}
-                selected={activeTab3 === 'Вторник'}
+                onClick={() => setActiveTab3('Завершенные' )}
+                selected={activeTab3 === 'Завершенные'}
             >
-               <Text weight="semibold">ВТ</Text>
-            </TabsItem>
-            <TabsItem
-                onClick={() => setActiveTab3('Среда' )}
-                selected={activeTab3 === 'Среда'}
-            >
-            <Text weight="semibold">СР</Text>
-
-            </TabsItem>
-            <TabsItem
-                onClick={() => setActiveTab3('Четверг' )}
-                selected={activeTab3 === 'Четверг'}
-            >
-            <Text weight="semibold">ЧТ</Text>
-            
-            </TabsItem>
-            <TabsItem
-                onClick={() => setActiveTab3( 'Пятница' )}
-                selected={activeTab3 === 'Пятница'}
-            >
-            <Text weight="semibold">ПТ</Text>
-                
-            </TabsItem>
-            <TabsItem
-                onClick={() => setActiveTab3( 'Суббота' )}
-                selected={activeTab3 === 'Суббота'}
-            >
-               <Text weight="semibold">СБ</Text>
-            
+               <Text weight="semibold">Завершенные</Text>
             </TabsItem>
             </HorizontalScroll>
         </Tabs>
 
-        <Setting schedule={updateSchedule}/>
+        {/* <Setting schedule={updateSchedule}/> */}
         </Panel>
         </View>
 
@@ -107,4 +79,4 @@ const Schedule = ({ id, snackbarError, fetchedState,day,group }) => {
 	);
 };
 
-export default Schedule;
+export default Deadline;

@@ -1,10 +1,11 @@
-.grid {
+/* .grid {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} */
 
-.grid Div {
+
+/* .grid Div {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -13,4 +14,115 @@
     padding: 2%;
     width: 100%;
     white-space: pre-line
+} */
+
+
+/* .v_separator {
+    display: flex;
+    width: 1pt;
+    border-radius: 10px;
+    width: 2%;
 }
+
+.time {
+    height: 100%;
+    width: 5%;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    align-items: center;
+}
+
+.teacher {
+    min-width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.para {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    white-space: pre-line;
+}
+
+.Card__in {
+    display: flex;
+} */
+
+.Card__in {
+    /* display: flex; */
+    width: 100%;
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.blue {
+    background-color: rgb(50, 121, 198);
+}
+
+.orange {
+    background-color: rgb(247, 196, 101);
+}
+
+.green {
+    background-color: rgb(109, 225, 138);
+}
+
+.v_separator {
+    border-radius: 50%;
+    float: left;
+}
+
+.para {
+    /* display: flex; */
+    /* flex-direction: row; */
+    white-space: pre-line;
+}
+
+.time {
+    padding: 2px;
+    /* height: 100%; */
+    /* width: 3pt; */
+    display: flex;
+    flex-direction: column;
+    float: left;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.teacher {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding-top: 0;
+}
+
+
+/* .end {
+    float: left;
+    width: 6%;
+}
+
+.start {
+    float: left;
+    width: 6%;
+}
+
+.sep {
+    float: left;
+    width: 6%;
+} */
