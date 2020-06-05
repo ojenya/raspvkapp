@@ -16,8 +16,7 @@ import Icon28CameraOutline from '@vkontakte/icons/dist/28/camera_outline';
 import Icon16Dropdown from '@vkontakte/icons/dist/16/dropdown';
 import Icon24Done from '@vkontakte/icons/dist/24/done';
 import './Home.css';
-import  Setting from '../components/Setting';
-
+import  Setting from '../components/Settings/Setting';
 
 
 const Home = ({ id, snackbarError, fetchedState,day,group }) => {

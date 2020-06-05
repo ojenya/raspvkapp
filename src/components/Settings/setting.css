@@ -141,3 +141,17 @@
     display: flex;
     flex-direction: column;
 }
+
+.CardGrid img {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20%;
+}
+
+.chill {
+    font-size: 30px;
+    text-align: center;
+    padding-top: 5%;
+}

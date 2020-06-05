@@ -11,10 +11,10 @@ Date.prototype.getWeekNumber = function() {
 export function getWeek() {
     var oddeven = new Date().getWeekNumber()
     if (oddeven % 2 == 1) {
-        var weektype = "нижняя"
+        let weektype = "нижняя"
         return weektype
     } else {
-        var weektype = "верхняя"
+        let weektype = "верхняя"
         return weektype
     }
 
@@ -36,12 +36,9 @@ export async function update(selectGroup, selectDay) {
             return getSchedule
         })
         .then(result => {
-
-            // console.log(result)
             return [...result]
         })
         .catch(e => console.log(e))
-        // console.log(res)
 
     return res
 

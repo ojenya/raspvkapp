@@ -7,12 +7,12 @@ import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 // import { Setting } from '../components/Setting';
 import {FormLayout,TabbarItem,Epic,Tabbar,Text,Separator,Div,Header,Button,Select, Textarea, Root, UsersStack} from "@vkontakte/vkui";
 import {TabsItem,Card,CardGrid,CellButton,PanelHeader,HorizontalScroll,PanelHeaderBack,PanelHeaderButton,Group,PanelHeaderContext,Counter,Cell,List, Search,Tabs} from "@vkontakte/vkui";
-import Setting from '../components/Setting';
+import Setting from '../Settings/Setting';
 
-import {update} from '../components/Service' 
-import {getWeek} from '../components/Service' 
+import {update} from '../../helpers/Service' 
+import {getWeek} from '../../helpers/Service' 
 
-const Deadline = () => {
+export const Deadline = (props) => {
 	const [activePanel, setActivePanel]= useState('panel3')
 	const [activeView, setactiveView]= useState('view1')
     const [activeTab, setActiveTab]= useState('Активные')
@@ -28,9 +28,27 @@ const Deadline = () => {
         {
             id:1,
             subject_name:'Физика',
-            text:'Сделать кр, упражнея афыаф ыаыфаыыаыаф фыафыафыаыфафыафыа фыафыафыафы'
-        }
+            text:'Сделать кр, домашку'
+        },
+        {
+          id:2,
+          subject_name:'Матеша',
+          text:'Практическая #2'
+      }
     ]
+
+    const dlEnd = [
+      {
+          id:1,
+          subject_name:'Информатика',
+          text:'Просто завершенный дедлайн'
+      },
+      {
+        id:2,
+        subject_name:'Русский язык',
+        text:'Век живи -- век учись!'
+    }
+  ]
 	return (
         
 <Root activeView={activeView}>
@@ -55,18 +73,33 @@ const Deadline = () => {
         </Tabs>
         {(activeTab === 'Активные')?
         <CardGrid>
-        <Card size="l">
-          <Div style={{ height: 96 }}>
-           <List>{dl.map(dead =><Fragment><Cell key={dead.id}>{dead.subject_name} </Cell><Cell>{dead.text}</Cell></Fragment>)}</List>
-    
-          </Div>
-        </Card>
+        
+
+           {dl.map(dead =>
+           <Card size="l" key={dead.id}>
+              <Div>
+                {dead.subject_name}
+              </Div> 
+              <Div>
+                {dead.text}
+              </Div>   
+            </Card>)}
+
+       
       </CardGrid>
         :
         <CardGrid>
-        <Card size="l">
-          <Div style={{ height: 96 }} />
-        </Card>
+
+          {dlEnd.map(dead =>
+           <Card size="l" key={dead.id}>
+              <Div>
+                {dead.subject_name}
+              </Div> 
+              <Div>
+                {dead.text}
+              </Div>   
+            </Card>)
+          } 
       </CardGrid>
         }
        

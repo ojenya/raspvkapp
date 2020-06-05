@@ -1,30 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import CardGrid from '@vkontakte/vkui/dist/components/CardGrid/CardGrid';
 import Card from '@vkontakte/vkui/dist/components/Card/Card';
-import {Div,Text, Separator} from "@vkontakte/vkui";
-import { Color } from './color'
+import {Div,Text,Caption,Separator} from "@vkontakte/vkui";
+import { Color } from '../Color/Color'
 import "./setting.css"
 
 
 
 const Setting = (props) => {
     const [getSchedule, setSchedule] = useState([])
-
-    // const zaglushka=
-    //     getZag(()=> {
-       
-    //         <Card 
-    //         mode = "shadow"
-    //         size = "l"
-    //         className = "grid" >
-    //         >
-    //             <Text weight="semibold">
-    //                 ПАР НЕТ
-    //             </Text>
-               
-    //         </Card> 
-    // }  
-    // )
 
     useEffect(() => {
         setSchedule(props.schedule)
@@ -64,7 +48,7 @@ const Setting = (props) => {
                 </Card>
             )
             
-        }) : 'Пар нет'
+        }) : <Div><img src="https://vk.com/sticker/1-4491-512" alt="chill"/> <Caption className="chill" level="1" weight="heavy" caps style={{ marginBottom: 16 }}>Сегодня пар нет</Caption></Div>
     return <CardGrid > {content} </CardGrid> 
 }
 
