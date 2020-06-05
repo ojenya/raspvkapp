@@ -56,7 +56,32 @@ const MODAL_PAGE_DEADLINE = 'deadline';
 // };
 
 const App = () => {
+	const dl = [
+        {
+            id:1,
+            subject_name:'Физика',
+            text:'Сделать кр, домашку'
+        },
+        {
+          id:2,
+          subject_name:'Матеша',
+          text:'Практическая #2'
+	  },
+	  
+    ]
 
+    const dlEnd = [
+      {
+          id:1,
+          subject_name:'Информатика',
+          text:'Просто завершенный дедлайн'
+      },
+      {
+        id:2,
+        subject_name:'Русский язык',
+        text:'Век живи -- век учись!'
+    }
+  ]
    
     // const dl = [
     //     {
@@ -414,6 +439,7 @@ const App = () => {
     <Tabbar>
 
 	<TabbarItem
+	label={dl.length}
 	onClick={() => setActiveStory('deadline')}
 	selected={activeStory === 'deadline'}
 	data-story="deadline"
@@ -450,54 +476,11 @@ const App = () => {
 		<ViewApp id='schedule' activePanel='schedule' title={group.group} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
 			<Schedule day={ getWeekDay()} group={group} />
 		</ViewApp>
-		<ViewApp id='deadline' activePanel='deadline' title={group.group} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
-			<Deadline setActiveModal={() => setActiveModal(MODAL_PAGE_DEADLINE)}/>
+		
+		<ViewApp id='deadline' activePanel='deadline' title={'Дедлайны'} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
+			<Deadline dl={dl} dlEnd={dlEnd} setActiveModal={() => setActiveModal(MODAL_PAGE_DEADLINE)}/>
 		</ViewApp>
 		
-		{/* <View id="deadline" activePanel='deadline'>
-			<Panel id="deadline">
-				<PanelHeader 
-					left={<Icon36Article 
-					onClick={() => setActiveModal(MODAL_PAGE_FILTERS)}/>}
-					separator={false}
-				>
-				{group.group}
-				</PanelHeader>
-				<Tabs>    
-					<HorizontalScroll>
-						<TabsItem 
-							onClick={() => setActiveTab('Активные')}
-							selected={activeTab === 'Активные'}
-						>
-							<Text weight="semibold">Активные</Text>
-						</TabsItem>
-						<TabsItem
-							onClick={() => setActiveTab('Завершенные' )}
-							selected={activeTab === 'Завершенные'}
-						>
-							<Text weight="semibold">Завершенные</Text>
-						</TabsItem>
-					</HorizontalScroll>
-				</Tabs>
-				{(activeTab === 'Активные')?
-				<CardGrid>
-					<Card size="l" className="deadline_card">
-						<Div className="deadline_check">
-							<Checkbox/>
-						</Div>
-						<List className="deadline_list" onClick={() => setActiveModal(MODAL_PAGE_DEADLINE)}>{dl.map(dead =><Fragment><Cell key={dead.id}>{dead.subject_name} </Cell><Cell>{dead.text}</Cell></Fragment>)}</List>
-					</Card>
-				</CardGrid>
-				:
-				<CardGrid>
-					<Card size="l">
-						<Div style={{ height: 96 }} />
-					</Card>
-				</CardGrid>
-				}
-			</Panel>
-		</View>
-	 */}
 	
 
 	</Epic>

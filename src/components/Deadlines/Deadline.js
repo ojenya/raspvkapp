@@ -18,37 +18,13 @@ export const Deadline = (props) => {
     const [activeTab, setActiveTab]= useState('Активные')
     const [selectDay, setSelectDay]= useState(activeTab)
     const [updateSchedule,setUpdateSchedule ]= useState([])
-
+  const {dl,dlEnd} = props
     useEffect(() => {
         setSelectDay(activeTab)
         
       });
    
-    const dl = [
-        {
-            id:1,
-            subject_name:'Физика',
-            text:'Сделать кр, домашку'
-        },
-        {
-          id:2,
-          subject_name:'Матеша',
-          text:'Практическая #2'
-      }
-    ]
-
-    const dlEnd = [
-      {
-          id:1,
-          subject_name:'Информатика',
-          text:'Просто завершенный дедлайн'
-      },
-      {
-        id:2,
-        subject_name:'Русский язык',
-        text:'Век живи -- век учись!'
-    }
-  ]
+    
 	return (
         
 <Root activeView={activeView}>
