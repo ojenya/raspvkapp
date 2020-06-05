@@ -33,14 +33,15 @@ export async function update(selectGroup, selectDay) {
             }).sort(function(obj1, obj2) {
                 return obj1.pair_start_time - obj2.pair_start_time;
             })
-
             return getSchedule
         })
         .then(result => {
 
+            // console.log(result)
             return [...result]
         })
         .catch(e => console.log(e))
+        // console.log(res)
 
     return res
 

@@ -30,7 +30,7 @@ const Schedule = ({ id, snackbarError, fetchedState,day,group }) => {
             update(group,selectDay)
             .then(arr => setUpdateSchedule(arr))
         
-      },[selectDay]);
+      },[selectDay,group]);
 
     useEffect(() => {
         setSelectDay(activeTab3)
@@ -99,7 +99,7 @@ const Schedule = ({ id, snackbarError, fetchedState,day,group }) => {
             </HorizontalScroll>
         </Tabs>
 
-        <Setting schedule={updateSchedule}/>
+        <Setting schedule={updateSchedule != []?updateSchedule:['ПАР НЕТ']}/>
         </Panel>
         </View>
 

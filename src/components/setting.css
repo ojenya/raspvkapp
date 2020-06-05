@@ -86,13 +86,18 @@
 }
 
 .para {
+    /* padding-top: 3%; */
     /* display: flex; */
     /* flex-direction: row; */
     white-space: pre-line;
+    /* white-space: normal; */
+    /* white-space: nowrap; 
+    overflow: hidden;  */
 }
 
 .time {
-    padding: 2px;
+    /* padding: 2px; */
+    /* padding-top: 0px; */
     /* height: 100%; */
     /* width: 3pt; */
     display: flex;
@@ -126,3 +131,13 @@
     float: left;
     width: 6%;
 } */
+
+.deadline_check {
+    display: flex;
+    float: left;
+}
+
+.deadline_list {
+    display: flex;
+    flex-direction: column;
+}

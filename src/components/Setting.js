@@ -10,14 +10,28 @@ import "./setting.css"
 const Setting = (props) => {
     const [getSchedule, setSchedule] = useState([])
 
-
+    // const zaglushka=
+    //     getZag(()=> {
+       
+    //         <Card 
+    //         mode = "shadow"
+    //         size = "l"
+    //         className = "grid" >
+    //         >
+    //             <Text weight="semibold">
+    //                 ПАР НЕТ
+    //             </Text>
+               
+    //         </Card> 
+    // }  
+    // )
 
     useEffect(() => {
         setSchedule(props.schedule)
     })
-    const content =
+    const content = getSchedule.length != 0 ?
         getSchedule.map((e, i) => {
-            return (
+         return (
                 <Card key = { i }
                     mode = "shadow"
                     size = "l"
@@ -50,9 +64,8 @@ const Setting = (props) => {
                 </Card>
             )
             
-        })
-
-    return <CardGrid > { content } </CardGrid> 
+        }) : 'Пар нет'
+    return <CardGrid > {content} </CardGrid> 
 }
 
 
