@@ -48,7 +48,7 @@ const Setting = (props) => {
                 </Card>
             )
             
-        }) : <Div><img src="https://vk.com/sticker/1-4491-512" alt="chill"/> <Caption className="chill" level="1" weight="heavy" caps style={{ marginBottom: 16 }}>Сегодня пар нет</Caption></Div>
+        }) : <Div><img src="https://vk.com/sticker/1-4491-512" alt="chill"/> <Caption className="chill" level="1" weight="heavy" caps style={{ marginBottom: 16 }}>Сегодня нет пар</Caption></Div>
     return <CardGrid > {content} </CardGrid> 
 }
 

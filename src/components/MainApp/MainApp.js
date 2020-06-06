@@ -1,36 +1,36 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect,Fragment } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import View from '@vkontakte/vkui/dist/components/View/View';
 // import Snackbar from '@vkontakte/vkui/dist/components/Snackbar/Snackbar';
 // import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 // import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
-import Icon24Error from '@vkontakte/icons/dist/24/error';
+// import Icon24Error from '@vkontakte/icons/dist/24/error';
 // import "./components/Schedule/setting.css"
 // import Icon24Services from '@vkontakte/icons/dist/24/services';
 import Icon28FireOutline from '@vkontakte/icons/dist/28/fire_outline';
 import '@vkontakte/vkui/dist/vkui.css';
-
 import Icon36Article from '@vkontakte/icons/dist/36/article';
 // import {getWeek} from './helpers/Service' 
 // import apiGetGroup from './components/getGroup' 
-import Schedule from './components/Schedule/Schedule';
-import ViewApp from './components/ViewApp';
-import Depart from './components/Depart';
-import Deadline from './components/Deadlines';
-import Intro from './components/Intro';
+import Schedule from '../Schedule/Schedule';
+import ViewApp from '../ViewApp';
+import Depart from '../Depart';
+import Deadline from '../Deadlines';
+import Intro from '../Intro';
 
 
 
-import {getWeekDay} from './helpers/getWeekDay'
-import './components/Settings/setting.css'
+
+import {getWeekDay} from '../../helpers/getWeekDay'
+import '../Settings/setting.css'
 import Icon28CalendarOutline from '@vkontakte/icons/dist/28/calendar_outline';
 import Icon28Place from '@vkontakte/icons/dist/28/place';
 import {
 	ModalPage,
-	Root,Search,Snackbar,
-	CardGrid,Card,Div,Text,Avatar,
+	Root,Search,ScreenSpinner,
+	CardGrid,Card,Div,Text,
 	List,Tabs,HorizontalScroll,TabsItem,
-	Panel,ScreenSpinner,
+	Panel,Group,Avatar,FixedLayout,Button,
 	PanelHeader,IS_PLATFORM_IOS,IS_PLATFORM_ANDROID,
 	Epic,Tabbar,TabbarItem, ModalRoot,ModalPageHeader,
 	PanelHeaderButton,
@@ -52,12 +52,14 @@ const MODAL_PAGE_DEADLINE = 'deadline';
 // 	TAB: 'tab'
 // };
 
-const STORAGE_KEYS = {
-	GROUP: 'group',
-	STATUS: 'viewStatus',
-};
+// const STORAGE_KEYS = {
+// 	GROUP: 'group',
+// 	STATUS: 'viewStatus',
+// };
 
-const App = () => {
+export const App = (props) => {
+
+
 	const dl = [
         {
             id:1,
@@ -69,6 +71,26 @@ const App = () => {
           subject_name:'Матеша',
           text:'Практическая #2'
 	  },
+	  {
+		id:1,
+		subject_name:'Физика',
+		text:'Сделать кр, домашку'
+	},
+	{
+	  id:2,
+	  subject_name:'Матеша',
+	  text:'Практическая #2'
+  },
+  {
+	id:1,
+	subject_name:'Физика',
+	text:'Сделать кр, домашку'
+},
+{
+  id:2,
+  subject_name:'Матеша',
+  text:'Практическая #2'
+},
 	  
     ]
     const dlEnd = [
@@ -227,20 +249,18 @@ const App = () => {
 		];
 
 
-	// const [activePanel, setActivePanel] = useState();
+	const [activePanel, setActivePanel] = useState('intro');
 	const [fetchedUser, setUser] = useState(null);
 	const [fetchedState, setFetchedState] = useState(null);
-	const [snackbar, setSnackbar] = useState(null);
-	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
-	const [userHasSeenIntro, setUserHasSeenIntro] = useState(false);
+	// const [snackbar, setSnackbar] = useState(null);
+	// const [userHasSeenIntro, setUserHasSeenIntro] = useState(false);
 	const [activeTab, setActiveTab]= useState('Активные')
 	const [activeModal,setModal]=useState(null);
 	const [modalHistory,setModalHistory]=useState([]);
-	const [activeStory, setActiveStory]= useState('schedule')
-	const [group,setGroup]=useState({})
+	const [activeStory, setActiveStory]= useState('intro')
+	const [group,setGroup]=useState(props.group)
 
 	const [search,setSearch]=useState('')
-	
 	const  new_thematic  = (list, search) =>  {
 		return list.filter(({group_id}) => group_id.toLowerCase().indexOf(search.toLowerCase()) > -1);
 	}
@@ -249,115 +269,50 @@ const App = () => {
 	function  onChange (e) {
 		setSearch(e.target.value); 
 	}
-	function handleClick(thematic) { 
-		setGroup({group:`${thematic.group_id}`})
-		setStorage(thematic.group_id)
-		modalBack()
-		setUserHasSeenIntro(true)
-		setIntro()
 
-	}
+	// function handleClick(thematic) { 
+	// 	setGroup({group:thematic.group_id})
+	// 	setStorage(thematic.group_id)
+	// 	modalBack()
 
-	useEffect(() => {
-		bridge.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value =  'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
-				// console.log(data)
-			}
-		});
-		async function fetchData() {
-			const user = await bridge.send('VKWebAppGetUserInfo');
-			const hasSeenIntro = await bridge.send("VKWebAppStorageGet", {"keys": [STORAGE_KEYS.GROUP, STORAGE_KEYS.STATUS]})
-			if (Array.isArray(hasSeenIntro.keys)) {
-				hasSeenIntro.keys.forEach(({ key, value }) => {
-					try {
-						switch (key) {
-							case STORAGE_KEYS.GROUP:
-								setGroup({group:`${value}`});
-								break;
-							case STORAGE_KEYS.STATUS:
-								console.log(typeof( value))
-								if (value.includes('true') ) {
-									setUserHasSeenIntro(true);
-								}
-								break;
-							default:
-								break;
-							}
-						} catch (error) {
-							setSnackbar(<Snackbar
-								layout='vertical'
-								onClose={() => setSnackbar(null)}
-								before={<Avatar size={24} style={{backgroundColor: 'var(--dynamic_red)'}}><Icon24Error fill='#fff' width={14} height={14} /></Avatar>}
-								duration={900}
-							>
-								Проблема с получением данных из Storage
-							</Snackbar>
-							);
-							setFetchedState({});
-						}
-					});
-					
-				} 
-				else {
-					setFetchedState({});
-				}
-				setUser(user);
-				setPopout(null);
-			}
-			fetchData();
-		}, []);
+	// }
+	// function setStorage(key){
+	// 	bridge.send("VKWebAppStorageSet", {"key": "group", "value": `${key}`})
+	// 	.then(
+	// 		e => console.log({...e})
+	// 	) 
+		
+	// }
 
-	// const go = panel => {
-	// 	setActivePanel(panel);
-	// };
+	// function getStorage() {
+	// 	bridge.send("VKWebAppStorageGet", {"keys": ["group"]})
+	// 	.then(
+	// 		e => console.log({...e})
+	// 	) 
+	// }
+
+	
+
 	function setActiveModal (activeModal) {
 		activeModal = activeModal || null;
 		let history = modalHistory ? [...modalHistory] : [];
 	
-			if (activeModal === null) {
-				history = [];
-			} 
-			else if (history.indexOf(activeModal) !== -1) {
-				history = history.splice(0, history.indexOf(activeModal) + 1);
-			} 
-			else {
-				history.push(activeModal);
-			}
+		if (activeModal === null) {
+	history = [];
+		} else if (history.indexOf(activeModal) !== -1) {
+	history = history.splice(0, history.indexOf(activeModal) + 1);
+		} else {
+	history.push(activeModal);
+		}
 	
 		setModal(activeModal)
 		setModalHistory(modalHistory)
 	}
 
-	
-	function setStorage(key){
-		bridge.send("VKWebAppStorageSet", {"key": "group", "value": `${key}`})
-		.then(
-			e => console.log({...e})
-		) 
-		
-	}
-	function setIntro(){
-		bridge.send("VKWebAppStorageSet", {"key": "viewStatus", "value": "true"})
-		.then(
-			e => console.log({...e})
-		) 
-	}
-	function getStorage() {
-		bridge.send("VKWebAppStorageGet", {"keys": ["group"]})
-		.then(
-			e => console.log({...e})
-		) 
-	}
-	console.log(getStorage())
 
 	const modalBack = () => {
 		setActiveModal(modalHistory[modalHistory.length - 2]);
 	};
-	
-
 	
 	const modal = (
 		<ModalRoot
@@ -421,61 +376,65 @@ const App = () => {
 		</ModalRoot>
 	);
 	
-	const content = (userHasSeenIntro === false ? <Intro fetchedUser={fetchedUser} userHasSeenIntro={userHasSeenIntro} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}></Intro> : 
-	<Epic activeStory={activeStory} tabbar={
-		<Tabbar>
-	
-		<TabbarItem
-		label={dl.length}
-		onClick={() => setActiveStory('deadline')}
-		selected={activeStory === 'deadline'}
-		data-story="deadline"
-		text="Дедлайны"
-		><Icon28FireOutline /></TabbarItem>
-	
-		<TabbarItem
-		onClick={() => setActiveStory('schedule')}
-		selected={activeStory === 'schedule'}
-		data-story="schedule"
-		text="Расписание"
-		><Icon28CalendarOutline /></TabbarItem>
-		
-		<TabbarItem
-			onClick={() => setActiveStory('out')}
-			selected={activeStory === 'out'}
-			data-story="out"
-			text="Отделы ИГУ"
-		  ><Icon28Place /></TabbarItem>
-	
-		</Tabbar>
-	  }>	
-			<ViewApp id='out' activePanel='out' title={'Отделы ИГУ'} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
-				  <Depart title={'Профком'}  id='prof' activePanel='prof'/>
-				  <Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
-				<Depart title={'Профком'}  id='prof' activePanel='prof'/>
-				  <Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
-				<Depart title={'Профком'}  id='prof' activePanel='prof'/>
-				  <Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
-				<Depart title={'Профком'}  id='prof' activePanel='prof'/>
-				  <Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
-			</ViewApp>
-	
-			<ViewApp id='schedule' activePanel='schedule' title={group.group} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
-				<Schedule day={ getWeekDay()} group={group} />
-			</ViewApp>
-			
-			<ViewApp id='deadline' activePanel='deadline' title={'Дедлайны'} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
-				<Deadline dl={dl} dlEnd={dlEnd} setActiveModal={() => setActiveModal(MODAL_PAGE_DEADLINE)}/>
-			</ViewApp>
-			</Epic>)
+	return (
+    
 
 
-	return ( 
-		
 <Root modal={modal}> 
-	{content}
-</Root>
+<Epic activeStory={activeStory} tabbar={
+    <Tabbar>
+
+	<TabbarItem
+	label={dl.length}
+	onClick={() => setActiveStory('deadline')}
+	selected={activeStory === 'deadline'}
+	data-story="deadline"
+	text="Дедлайны"
+	><Icon28FireOutline /></TabbarItem>
+
+	<TabbarItem
+	onClick={() => setActiveStory('schedule')}
+	selected={activeStory === 'schedule'}
+	data-story="schedule"
+	text="Расписание"
+	><Icon28CalendarOutline /></TabbarItem>
+	
+	<TabbarItem
+        onClick={() => setActiveStory('out')}
+        selected={activeStory === 'out'}
+        data-story="out"
+        text="Отделы ИГУ"
+      ><Icon28Place /></TabbarItem>
+
+    </Tabbar>
+  }>	
+		<ViewApp id='out' activePanel='out' title={'Отделы ИГУ'} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
+  			<Depart title={'Профком'}  id='prof' activePanel='prof'/>
+  			<Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
+			<Depart title={'Профком'}  id='prof' activePanel='prof'/>
+  			<Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
+			<Depart title={'Профком'}  id='prof' activePanel='prof'/>
+  			<Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
+			<Depart title={'Профком'}  id='prof' activePanel='prof'/>
+  			<Depart title={'Библиотека'}  id='lib' activePanel='lib'/>
+		</ViewApp>
+
+		<ViewApp id='schedule' activePanel='schedule' title={group.group} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
+			<Schedule day={ getWeekDay()} group={group} />
+		</ViewApp>
+		
+		<ViewApp id='deadline' activePanel='deadline' title={'Дедлайны'} setActiveModal={() => setActiveModal(MODAL_PAGE_FILTERS)}>
+			<Deadline dl={dl} dlEnd={dlEnd} setActiveModal={() => setActiveModal(MODAL_PAGE_DEADLINE)}/>
+		</ViewApp>
+		
+		
+
+	</Epic>
+</Root> 
+
 	);
 }
 
+
 export default App;
+
