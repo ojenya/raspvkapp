@@ -9,7 +9,7 @@ const ListGroup = (props) => {
     const [thematics, setThematics] = useState([])
 
     useEffect(()=> {
-        fetch('http://localhost:3000/group')
+        fetch('https://raspmath.herokuapp.com/group')
             .then(e => e.json())
             .then(body =>  setThematics(body.group))
 
@@ -23,7 +23,7 @@ const ListGroup = (props) => {
    }
    
     const list  = filterSearch(thematics, search);
-    let render = <CellButton>{'Мюю му'}</CellButton>
+    let render = <CellButton>{'Начни вводить'}</CellButton>
     if(!!list.length) {
         render = list.map(i => {
             return (
@@ -33,7 +33,7 @@ const ListGroup = (props) => {
             )
         });
     } else {
-    render = <CellButton>{'Хрю му'}</CellButton>
+    render = <CellButton>{'Ничего не найдено'}</CellButton>
     }
         
 
